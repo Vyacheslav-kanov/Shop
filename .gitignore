@@ -1,0 +1,11 @@
+temp/
+
+#Idea
+.idea/
+
+#Maven
+target/
+
+#Gradle
+.gradle/
+out/
