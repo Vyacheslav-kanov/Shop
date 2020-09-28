@@ -11,29 +11,41 @@ public class EatStoreCatalog implements Catalog{
             new Product(50, 5, "Сочный сад", "фрукты", "Дыня"),
             new Product(35, 20, "Овощной рай", "фрукты", "Кабачок")
     );
-    private static List<Product> eatStoreCatalog = new ArrayList<>(accortment);
-    private static List<Product> filteredCatalog = new ArrayList<>(eatStoreCatalog);
+
+    private static List<Product> storeCatalog = new ArrayList<>(accortment);
+    private static List<Product> filteredCatalog = new ArrayList<>(storeCatalog);
+
+    private EatStoreBasket eatStoreBasket = new EatStoreBasket();
+
 
     @Override
     public void printProductCatalog() {
-        eatStoreCatalog.forEach(System.out::println);
+        storeCatalog.forEach(System.out::println);
     }
 
     @Override
-    public void purchase(int indexProduct) {
-        if(eatStoreCatalog.get(indexProduct).getQuantity() != 0) {
-            eatStoreCatalog.get(indexProduct).setQuantity(eatStoreCatalog.get(indexProduct).getQuantity() - 1);
+    public void purchase(Product product) {
+        if(product.getQuantity() != 0) {
+            eatStoreBasket.append(product);
+
+            product.setQuantity(product.getQuantity() - 1);
+            product.setRating(product.getRating() + 1);
         }
         else System.out.println("Ошибка! Этот продукт закончился!");
 
-        if(eatStoreCatalog.get(indexProduct).getQuantity() == 0){
-            eatStoreCatalog.remove(indexProduct);
+        if(product.getQuantity() == 0){
+            storeCatalog.remove(product);
         }
+    }
+
+    public List<Product> getStoreCatalog(){
+        return storeCatalog;
     }
 
     public void filter(int choice){
         Scanner scan = new Scanner(System.in);
         FilterCatalog filterCatalog = new FilterCatalog();
+
         switch (choice){
             case 1:
                 System.out.println("Введите название группы для фильтрации: ");
@@ -42,6 +54,7 @@ public class EatStoreCatalog implements Catalog{
                 filteredCatalog = filterCatalog.filterGroup(group, filteredCatalog);
                 System.out.println("Список отфильтрован!");
                 break;
+
             case 2:
                 System.out.println("Введите название группы для фильтрации: ");
                 String name = scan.nextLine();
@@ -49,6 +62,7 @@ public class EatStoreCatalog implements Catalog{
                 filteredCatalog = filterCatalog.filterName(name, filteredCatalog);
                 System.out.println("Список отфильтрован!");
                 break;
+
             case 3:
                 System.out.println("Введите два числа: ");
                 String value = scan.nextLine();
@@ -61,6 +75,7 @@ public class EatStoreCatalog implements Catalog{
                 filteredCatalog = filterCatalog.filterPrice(min, max, filteredCatalog);
                 System.out.println("Список отфильтрован!");
                 break;
+
             case 4:
                 System.out.println("Введите клоючевое слово: ");
                 String keyWord = scan.nextLine();
@@ -68,8 +83,9 @@ public class EatStoreCatalog implements Catalog{
                 filteredCatalog = filterCatalog.filterKeyWord(keyWord, filteredCatalog);
                 System.out.println("Список отфильтрован!");
                 break;
+
             case 5:
-                filteredCatalog = filterCatalog.clearFilter(eatStoreCatalog);
+                filteredCatalog = filterCatalog.clearFilter(storeCatalog);
                 System.out.println("Фильтры очищены!");
                 break;
         }

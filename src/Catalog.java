@@ -3,5 +3,5 @@ import java.util.List;
 
 public interface Catalog {
     void printProductCatalog();
-    void purchase(int indexProduct);
+    void purchase(Product product);
 }
