@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 public class FilterCatalog {
 
         List<Product> filterGroup(String group, List<Product> catalogList) {
-            EatStoreCatalog eatStoreCatalog = new EatStoreCatalog();
+            MealStoreCatalog eatStoreCatalog = new MealStoreCatalog();
             List<Product> productList = catalogList;
             Stream<Product> streamFilterGroup = productList.stream();
 

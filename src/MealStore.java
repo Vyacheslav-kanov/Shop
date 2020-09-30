@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-public class EatStore implements Store{
+public class MealStore implements Store{
 
-    private static EatStoreCatalog eatStoreCatalog = new EatStoreCatalog();
-    private static EatStore eatStore = new EatStore();
+    private static MealStoreCatalog eatStoreCatalog = new MealStoreCatalog();
+    private static MealStore eatStore = new MealStore();
 
 
     private static void printCatalog(){
@@ -75,14 +75,15 @@ public class EatStore implements Store{
                     eatStore.menuBasket();
                     break;
 
-                case 3: break;
+                case 3: break; //Трекер !
             }
         }
     }
 
     private static void menuFilter(){
         Scanner scan = new Scanner(System.in);
-        EatStoreCatalog eatStoreCatalog = new EatStoreCatalog();
+        FilterCatalog filterCatalog = new FilterCatalog();
+        MealStoreCatalog eatStoreCatalog = new MealStoreCatalog();
 
         printCatalog();
 
@@ -105,14 +106,56 @@ public class EatStore implements Store{
                 break;
             }
 
-            eatStoreCatalog.filter(choice);
+            switch (choice){
+                case 1:
+                    System.out.println("Введите название группы для фильтрации: ");
+                    String group = scan.nextLine();
+
+                    eatStoreCatalog.setFilteredCatalog(filterCatalog.filterGroup(group, eatStoreCatalog.getFilteredCatalog()));
+                    System.out.println("Список отфильтрован!");
+                    break;
+
+                case 2:
+                    System.out.println("Введите название группы для фильтрации: ");
+                    String name = scan.nextLine();
+
+                    eatStoreCatalog.setFilteredCatalog(filterCatalog.filterName(name, eatStoreCatalog.getFilteredCatalog()));
+                    System.out.println("Список отфильтрован!");
+                    break;
+
+                case 3:
+                    System.out.println("Введите два числа: ");
+                    String value = scan.nextLine();
+
+                    String[] split = value.split(" ");
+
+                    int min = Integer.parseInt(split[0]);
+                    int max = Integer.parseInt(split[1]);
+
+                    eatStoreCatalog.setFilteredCatalog(filterCatalog.filterPrice(min, max, eatStoreCatalog.getFilteredCatalog()));
+                    System.out.println("Список отфильтрован!");
+                    break;
+
+                case 4:
+                    System.out.println("Введите клоючевое слово: ");
+                    String keyWord = scan.nextLine();
+
+                    eatStoreCatalog.setFilteredCatalog(filterCatalog.filterKeyWord(keyWord, eatStoreCatalog.getFilteredCatalog()));
+                    System.out.println("Список отфильтрован!");
+                    break;
+
+                case 5:
+                    eatStoreCatalog.setFilteredCatalog(filterCatalog.clearFilter(eatStoreCatalog.getStoreCatalog()));
+                    System.out.println("Фильтры очищены!");
+                    break;
+            }
         }
     }
 
     @Override
     public void menuBasket(){
         Scanner scan = new Scanner(System.in);
-        EatStoreBasket eatStoreBasket = new EatStoreBasket();
+        MealStoreBasket eatStoreBasket = new MealStoreBasket();
 
         eatStoreBasket.printBasket();
 
@@ -133,7 +176,18 @@ public class EatStore implements Store{
                 break;
             }
 
+            switch (choice){
+                case 1: break; //Покупка выбраных товаров !
+                case 2:
+                    System.out.println("Введите номер продукта для удаления ");
+                    int index = scan.nextInt();
 
+                    eatStoreBasket.remove(eatStoreBasket.getBasket().get(index));
+                    System.out.println("Продукт" + eatStoreBasket.getBasket().get(index) + " удален из корзины !");
+                    break;
+
+                case 3: break; //Трекер !
+            }
         }
     }
 

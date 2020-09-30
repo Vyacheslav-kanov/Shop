@@ -1,9 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class EatStoreBasket implements Basket {
+public class MealStoreBasket implements Basket {
 
     private List<Product> basket = new ArrayList<>();
+
+    public List<Product> getBasket(){
+        return basket;
+    }
 
     @Override
     public void printBasket() {
@@ -18,5 +22,10 @@ public class EatStoreBasket implements Basket {
     @Override
     public void remove(Product product) {
         basket.remove(product);
+    }
+
+    @Override
+    public void toPay() {
+
     }
 }
